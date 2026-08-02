@@ -255,7 +255,6 @@ section{padding:76px 0}
 .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(43,70,212,.10)}
 .field textarea{resize:vertical;min-height:96px}
 .field .hint{font-weight:500;color:var(--mist)}
-.hp{position:absolute;left:-9999px}
 .fmsg{margin-top:12px;font-size:.9rem;font-weight:600;min-height:1.2em}
 .contact-alt{text-align:center;margin-top:18px;font-size:.9rem;color:var(--slate)}
 .contact-alt a{color:var(--brand);font-weight:700}
@@ -339,10 +338,10 @@ footer{background:var(--ink);color:#93A5BB;padding:46px 0 34px;font-size:.88rem}
   <section>
     <div class="wrap">
       <div class="formbox">
-        <form data-formspree data-done="Sent - we'll reply within one working day." novalidate>
+        <form data-formspree data-done="Sent - we'll reply within one working day." autocomplete="off" novalidate>
           <input type="hidden" name="_subject" value="ConfHub - new enquiry">
           <input type="hidden" name="form_type" value="Sales enquiry">
-          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
 
           <div class="two">
             <div class="field"><label for="c-name">Your name</label><input id="c-name" name="name" required placeholder="Dr Ada Obi" autocomplete="name"></div>
@@ -616,8 +615,12 @@ const WHATSAPP  = "2348132149889";
       if (btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
       if (msg){ msg.textContent = ''; }
       try{
+        const fd = new FormData(form);
+        // Formspree treats a non-empty _gotcha as spam. Browser autofill can
+        // populate it even though it is hidden, so send it deliberately empty.
+        fd.set('_gotcha', '');
         const res = await fetch(FORMSPREE, {
-          method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' }
+          method:'POST', body:fd, headers:{ 'Accept':'application/json' }
         });
         if(!res.ok) throw new Error();
         form.reset();

@@ -255,7 +255,6 @@ section{padding:76px 0}
 .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(43,70,212,.10)}
 .field textarea{resize:vertical;min-height:96px}
 .field .hint{font-weight:500;color:var(--mist)}
-.hp{position:absolute;left:-9999px}
 .fmsg{margin-top:12px;font-size:.9rem;font-weight:600;min-height:1.2em}
 .contact-alt{text-align:center;margin-top:18px;font-size:.9rem;color:var(--slate)}
 .contact-alt a{color:var(--brand);font-weight:700}
@@ -682,8 +681,12 @@ const WHATSAPP  = "2348132149889";
       if (btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
       if (msg){ msg.textContent = ''; }
       try{
+        const fd = new FormData(form);
+        // Formspree treats a non-empty _gotcha as spam. Browser autofill can
+        // populate it even though it is hidden, so send it deliberately empty.
+        fd.set('_gotcha', '');
         const res = await fetch(FORMSPREE, {
-          method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' }
+          method:'POST', body:fd, headers:{ 'Accept':'application/json' }
         });
         if(!res.ok) throw new Error();
         form.reset();
