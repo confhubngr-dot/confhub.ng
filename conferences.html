@@ -320,6 +320,7 @@ footer{background:var(--ink);color:#93A5BB;padding:46px 0 34px;font-size:.88rem}
       <a href="platform.html">Platform</a>
       <a href="conferences.html" class="here">Conferences</a>
       <a href="pricing.html">Pricing</a>
+      <a href="organiser.html">Organiser portal</a>
       <a href="contact.html" class="btn btn-primary nav-cta">Book a demo</a>
     </nav>
     <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">☰</button>
@@ -350,7 +351,7 @@ footer{background:var(--ink);color:#93A5BB;padding:46px 0 34px;font-size:.88rem}
     <div class="wrap">
       <div class="sec-head">
         <h2>List your conference &mdash; free</h2>
-        <p>Send us the details and we'll add it, usually within a working day. No charge, and no obligation to use ConfHub for anything else. We link to your association's own , never to your delegates' app.</p>
+        <p>Send us the details and we'll add it, usually within a working day. No charge, and no obligation to use ConfHub for anything else. We link to your association's own website, never to your delegates' app.</p>
       </div>
       <div class="formbox">
         <form data-formspree data-done="Thank you. We'll add your conference to the directory shortly." autocomplete="off" novalidate>
@@ -376,7 +377,7 @@ footer{background:var(--ink);color:#93A5BB;padding:46px 0 34px;font-size:.88rem}
           </div>
           <div class="two">
             <div class="field"><label for="l-deadline">Abstract deadline <span class="hint">(if any)</span></label><input id="l-deadline" name="abstract_deadline" type="date"></div>
-            <div class="field"><label for="l-url"></label><input id="l-url" name="url" type="url" placeholder="https://"></div>
+            <div class="field"><label for="l-url">Association website</label><input id="l-url" name="url" type="url" placeholder="https://"></div>
           </div>
           <div class="two">
             <div class="field"><label for="l-contact">Your name</label><input id="l-contact" name="contact_name" required></div>
@@ -426,6 +427,7 @@ footer{background:var(--ink);color:#93A5BB;padding:46px 0 34px;font-size:.88rem}
         <a href="conferences.html#list">List your conference</a>
         <a href="pricing.html">Pricing</a>
         <a href="contact.html">Contact</a>
+        <a href="organiser.html">Organiser portal</a>
       </nav>
     </div>
     <div class="foot-bot">
@@ -456,7 +458,7 @@ footer{background:var(--ink);color:#93A5BB;padding:46px 0 34px;font-size:.88rem}
        abstractdeadline | url | status | tag
 
        startdate / enddate / abstractdeadline  →  YYYY-MM-DD
-       url     →  the ASSOCIATION's own  (not the event app)
+       url     →  the ASSOCIATION's own website (not the event app)
        tag     →  "ConfHub" if we built it, otherwise leave blank
        status  →  leave blank. Type "cancelled" to hide a row.
 
@@ -464,7 +466,7 @@ footer{background:var(--ink);color:#93A5BB;padding:46px 0 34px;font-size:.88rem}
      You never move a row. Add it once and forget it.
    ═══════════════════════════════════════════════════════════════ */
 
-const CONFERENCES_SHEET_ID = "1oNsvxkVQHhpBRI0TBYMVrE16gLbJ2bOSZ3AY8Mct3cQ";
+const CONFERENCES_SHEET_ID = "PASTE_CONFERENCES_SHEET_ID_HERE";
 const FORMSPREE = "https://formspree.io/f/xqerzbjo";
 const WHATSAPP  = "2348132149889";
 
@@ -580,7 +582,7 @@ const WHATSAPP  = "2348132149889";
       '<div class="cfoot">' +
         (dl !== null && dl >= 0 ? '<span class="dl">Abstracts close in ' + dl + ' day' + (dl === 1 ? '' : 's') + '</span>' : '') +
         ((c.tag || '').toLowerCase() === 'confhub' ? '<span class="badge-ch">Runs on ConfHub</span>' : '') +
-        (c.url ? '<a class="clink" href="' + esc(c.url) + '" target="_blank" rel="noopener">website →</a>' : '') +
+        (c.url ? '<a class="clink" href="' + esc(c.url) + '" target="_blank" rel="noopener">Association website →</a>' : '') +
       '</div>';
     return el;
   }

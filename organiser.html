@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Organiser Sign In — ConfHub</title>
+<title>Organiser Portal — ConfHub</title>
 <meta name="description" content="Conference organisers: open your ConfHub dashboard to see registrations, payments, abstracts and attendance.">
-<meta property="og:title" content="Organiser Sign In — ConfHub">
+<meta property="og:title" content="Organiser Portal — ConfHub">
 <meta property="og:description" content="Open your conference dashboard.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#2B46D4">
@@ -79,7 +79,7 @@ input:focus{outline:none;border-color:var(--brand)}
 
   <div class="head">
     <div class="kick">ConfHub</div>
-    <h1>Organiser sign in</h1>
+    <h1>Organiser portal</h1>
     <p>Registrations, payments, abstracts and attendance for your conference.</p>
   </div>
 
@@ -133,6 +133,32 @@ input:focus{outline:none;border-color:var(--brand)}
   function save(list){
     try { localStorage.setItem(KEY, JSON.stringify(list.slice(0,10))); } catch(e){}
   }
+
+  // One date format across the platform: "Sun, 01.08.2027" and "14:30"
+  var DAYNM = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  function toDate(v){
+    if (v instanceof Date) return isNaN(v.getTime()) ? null : v;
+    var s = String(v||'').trim();
+    if (!s) return null;
+    var d = /^\d{4}-\d{2}-\d{2}$/.test(s) ? new Date(s + 'T12:00:00') : new Date(s);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function fmtDate(v){
+    var d = toDate(v);
+    if (!d) return String(v||'');
+    return DAYNM[d.getDay()] + ', ' + ('0'+d.getDate()).slice(-2) + '.' +
+           ('0'+(d.getMonth()+1)).slice(-2) + '.' + d.getFullYear();
+  }
+  function fmtTime(v){
+    var d = toDate(v);
+    if (!d) return '';
+    return ('0'+d.getHours()).slice(-2) + ':' + ('0'+d.getMinutes()).slice(-2);
+  }
+  function fmtDateTime(v){
+    var d = toDate(v);
+    return d ? fmtDate(d) + ' ' + fmtTime(d) : String(v||'');
+  }
+
   function labelFor(url){
     try{
       var host = new URL(url).hostname.split('.')[0];
@@ -154,7 +180,7 @@ input:focus{outline:none;border-color:var(--brand)}
 
   function remember(url){
     var list = load().filter(function(d){ return d.url !== url; });
-    list.unshift({ url:url, name:labelFor(url), when:new Date().toLocaleDateString() });
+    list.unshift({ url:url, name:labelFor(url), when:fmtDate(new Date()) });
     save(list);
   }
 
