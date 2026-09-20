@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Organiser Sign In — ConfHub</title>
+<meta name="description" content="Conference organisers: open your ConfHub dashboard to see registrations, payments, abstracts and attendance.">
+<meta property="og:title" content="Organiser Sign In — ConfHub">
+<meta property="og:description" content="Open your conference dashboard.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#2B46D4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B1524; --slate:#4A5B72; --mist:#8A9AAF; --line:#E2E8F0;
+  --bg:#F5F8FC; --card:#FFFFFF;
+  --brand:#2B46D4; --brand-dark:#1E2F9E; --brand-soft:#EEF1FE; --sky:#0E9DE5;
+  --grad:linear-gradient(130deg,#2B46D4,#0E9DE5);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+     background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;
+     padding:24px 16px 60px}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.wrap{max-width:560px;margin:0 auto}
+button{font-family:inherit;cursor:pointer}
+
+.head{background:var(--grad);color:#fff;border-radius:20px;padding:32px 28px;margin-bottom:18px;text-align:center}
+.head .kick{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;opacity:.85;font-weight:700}
+.head h1{font-size:1.45rem;font-weight:800;letter-spacing:-.025em;margin:10px 0 8px}
+.head p{font-size:.92rem;opacity:.93}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;
+       padding:24px 26px;margin-bottom:14px}
+.panel h2{font-size:1.02rem;font-weight:800;margin-bottom:8px}
+.panel p{font-size:.9rem;color:var(--slate);margin-bottom:12px}
+.panel p:last-child{margin-bottom:0}
+
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding-left:38px;margin-bottom:14px;
+          font-size:.92rem;color:var(--slate)}
+.steps li:last-child{margin-bottom:0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;
+                  border-radius:50%;background:var(--brand-soft);color:var(--brand-dark);
+                  font-weight:800;font-size:.82rem;display:flex;align-items:center;justify-content:center}
+.steps b{color:var(--ink)}
+
+.saved a{display:flex;align-items:center;gap:12px;padding:15px 17px;border:1.5px solid var(--line);
+         border-radius:13px;margin-bottom:9px;text-decoration:none;color:inherit;
+         transition:border-color .18s,transform .18s}
+.saved a:hover{border-color:var(--brand);transform:translateY(-1px)}
+.saved .nm{flex:1;font-weight:700;font-size:.95rem}
+.saved .ar{color:var(--brand);font-size:1.1rem}
+.saved .dt{font-size:.78rem;color:var(--mist);font-weight:500}
+.forget{background:none;border:none;color:var(--mist);font-size:.82rem;
+        text-decoration:underline;padding:0;margin-top:4px}
+.forget:hover{color:var(--brand)}
+
+input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;
+      font:inherit;font-size:.94rem;margin-bottom:10px}
+input:focus{outline:none;border-color:var(--brand)}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--grad);
+     color:#fff;font-weight:700;font-size:.96rem}
+.btn:hover{filter:brightness(1.07)}
+.msg{margin-top:10px;font-size:.87rem;font-weight:600;min-height:1.1em}
+
+.help{background:var(--brand-soft);border:1px solid #C9D3F6;border-radius:14px;
+      padding:16px 18px;font-size:.88rem;color:var(--brand-dark)}
+.help b{display:block;margin-bottom:4px}
+.foot{text-align:center;margin-top:22px;font-size:.8rem;color:var(--mist)}
+.foot a{color:var(--brand);text-decoration:none;font-weight:600}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="kick">ConfHub</div>
+    <h1>Organiser sign in</h1>
+    <p>Registrations, payments, abstracts and attendance for your conference.</p>
+  </div>
+
+  <div class="panel saved hide" id="savedPanel">
+    <h2>Your dashboards</h2>
+    <p>Saved on this device.</p>
+    <div id="savedList"></div>
+    <button class="forget" id="forget">Remove saved dashboards</button>
+  </div>
+
+  <div class="panel">
+    <h2>There is no password</h2>
+    <p>Each member of the organising committee gets a personal link by email. Opening that link is your sign in — nothing to remember, nothing to create.</p>
+    <ul class="steps">
+      <li>Look for the email <b>"Your organiser dashboard"</b> from your conference organisers.</li>
+      <li>Tap the link. It opens your dashboard straight away.</li>
+      <li><b>Save it</b> — add it to your home screen or bookmark it. It keeps working all year.</li>
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h2>Have your link?</h2>
+    <p>Paste it here and we'll open it and remember it on this device.</p>
+    <input id="lnk" type="url" placeholder="https://yourevent.confhub.ng/dashboard.html#…"
+           autocomplete="off" spellcheck="false">
+    <button class="btn" id="go">Open my dashboard</button>
+    <p class="msg" id="msg"></p>
+  </div>
+
+  <div class="help">
+    <b>Lost your link?</b>
+    Ask your LOC chairman or secretariat to resend it — they can do that in one click. For anything else, email
+    <a href="mailto:hello@confhub.ng" style="color:inherit;font-weight:700">hello@confhub.ng</a>.
+  </div>
+
+  <p class="foot"><a href="/">ConfHub.ng</a> &middot; conference software for Nigerian meetings</p>
+</div>
+
+<script>
+(function(){
+  var KEY = 'confhub_dashboards';
+
+  function esc(s){
+    return String(s==null?'':s).replace(/[&<>"]/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+    });
+  }
+  function load(){
+    try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ return []; }
+  }
+  function save(list){
+    try { localStorage.setItem(KEY, JSON.stringify(list.slice(0,10))); } catch(e){}
+  }
+  function labelFor(url){
+    try{
+      var host = new URL(url).hostname.split('.')[0];
+      return host.replace(/[-_]/g,' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+    }catch(e){ return 'Dashboard'; }
+  }
+
+  function draw(){
+    var list = load();
+    var panel = document.getElementById('savedPanel');
+    if (!list.length){ panel.className = 'panel saved hide'; return; }
+    panel.className = 'panel saved';
+    document.getElementById('savedList').innerHTML = list.map(function(d){
+      return '<a href="' + esc(d.url) + '"><span class="nm">' + esc(d.name) +
+        '<br><span class="dt">last opened ' + esc(d.when) + '</span></span>' +
+        '<span class="ar">\u2192</span></a>';
+    }).join('');
+  }
+
+  function remember(url){
+    var list = load().filter(function(d){ return d.url !== url; });
+    list.unshift({ url:url, name:labelFor(url), when:new Date().toLocaleDateString() });
+    save(list);
+  }
+
+  document.getElementById('go').addEventListener('click', function(){
+    var v = document.getElementById('lnk').value.trim();
+    var msg = document.getElementById('msg');
+    msg.style.color = '#DC2626';
+    if (!v){ msg.textContent = 'Paste the link from your email.'; return; }
+    if (!/^https?:\/\//i.test(v)){ msg.textContent = 'That does not look like a full web address.'; return; }
+    if (v.indexOf('#') === -1){
+      msg.textContent = 'That link is missing its access code — copy the whole link from the email, including the part after the # symbol.';
+      return;
+    }
+    remember(v);
+    msg.style.color = '#10B981';
+    msg.textContent = 'Opening…';
+    location.href = v;
+  });
+
+  document.getElementById('forget').addEventListener('click', function(){
+    if (!confirm('Remove the saved dashboards from this device? Your links will still work from your email.')) return;
+    try { localStorage.removeItem(KEY); } catch(e){}
+    draw();
+  });
+
+  draw();
+})();
+</script>
+</body>
+</html>
